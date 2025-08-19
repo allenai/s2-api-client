@@ -1,4 +1,4 @@
-from typing import Any, Union, List
+from typing import Any, Union, List, AsyncIterator
 import asyncio
 
 from semanticscholar.ApiRequester import ApiRequester
@@ -39,11 +39,11 @@ class PaginatedResults:
         self._parameters = ''
         self._items = []
         self._continuation_token = None
-    
+
     @classmethod
     async def create(
                 cls,
-                *args, 
+                *args,
                 **kwargs
             ):
 
@@ -111,7 +111,7 @@ class PaginatedResults:
         while self._has_next_page():
             yield from self._get_next_page()
 
-    async def __aiter__(self) -> Any:
+    async def __aiter__(self) -> AsyncIterator:
         for item in self._items:
             yield item
         while self._has_next_page():
@@ -142,7 +142,7 @@ class PaginatedResults:
 
         if not self._has_next_page():
             raise NoMorePagesException('No more pages to fetch.')
-        
+
         self._build_params()
 
         results = await self._request_data()
