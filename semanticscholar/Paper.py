@@ -370,7 +370,7 @@ class Paper(SemanticScholarObject):
                     PublicationVenue(data['publicationVenue'])
         if 'referenceCount' in data:
             self._referenceCount = data['referenceCount']
-        if 'references' in data:
+        if 'references' in data and data["references"]:
             items = []
             if data['references'] is not None:
                 for item in data['references']:
